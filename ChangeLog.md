@@ -35,6 +35,14 @@ Current Trunk
 - Use `__indirect_function_table` as the import name for the table, which is
   what LLVM does.
 - Remove `BINARYEN_SCRIPTS` setting.
+- Implicitly linking to an object file (without `-shared`, `-c` or `-r`) is no
+  longer supported.  Previously emscripten would output an object file rather
+  than an executable based on the name of the output file.  e.g. `emcc foo.c -o
+  foo` previously produced an object file called `foo`. Now it generates a JS
+  executable called `foo`.  This is true even when the name of the output file
+  could be an object file: `emcc foo.c -o foo.o`.  This might surprise some
+  users (although it matches the behavior of existing toolchains) so we now
+  produce a warning in this case.
 
 2.0.2: 09/02/2020
 -----------------
